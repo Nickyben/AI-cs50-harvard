@@ -3,6 +3,7 @@ Naive backtracking search without any heuristics or inference.
 """
 
 VARIABLES = ["A", "B", "C", "D", "E", "F", "G"]
+DOMAIN = ["Monday", "Tuesday", "Wednesday"]
 CONSTRAINTS = [
     ("A", "B"),
     ("A", "C"),
@@ -14,27 +15,8 @@ CONSTRAINTS = [
     ("D", "E"),
     ("E", "F"),
     ("E", "G"),
-    ("F", "G")
+    ("F", "G"),
 ]
-
-
-def backtrack(assignment):
-    """Runs backtracking search to find an assignment."""
-
-    # Check if assignment is complete
-    if len(assignment) == len(VARIABLES):
-        return assignment
-
-    # Try a new variable
-    var = select_unassigned_variable(assignment)
-    for value in ["Monday", "Tuesday", "Wednesday"]:
-        new_assignment = assignment.copy()
-        new_assignment[var] = value
-        if consistent(new_assignment):
-            result = backtrack(new_assignment)
-            if result is not None:
-                return result
-    return None
 
 
 def select_unassigned_variable(assignment):
@@ -47,8 +29,7 @@ def select_unassigned_variable(assignment):
 
 def consistent(assignment):
     """Checks to see if an assignment is consistent."""
-    for (x, y) in CONSTRAINTS:
-
+    for x, y in CONSTRAINTS:
         # Only consider arcs where both are assigned
         if x not in assignment or y not in assignment:
             continue
@@ -59,6 +40,25 @@ def consistent(assignment):
 
     # If nothing inconsistent, then assignment is consistent
     return True
+
+
+def backtrack(assignment):
+    """Runs backtracking search to find an assignment."""
+
+    # Check if assignment is complete
+    if len(assignment) == len(VARIABLES):
+        return assignment
+
+    # Try a new variable
+    var = select_unassigned_variable(assignment)
+    for value in DOMAIN:
+        new_assignment = assignment.copy()
+        new_assignment[var] = value
+        if consistent(new_assignment):
+            result = backtrack(new_assignment)
+            if result is not None:
+                return result
+    return None
 
 
 solution = backtrack(dict())

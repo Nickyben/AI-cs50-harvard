@@ -1,11 +1,10 @@
-from constraint import *
+from constraint import Problem
 
 problem = Problem()
 
 # Add variables
 problem.addVariables(
-    ["A", "B", "C", "D", "E", "F", "G"],
-    ["Monday", "Tuesday", "Wednesday"]
+    ["A", "B", "C", "D", "E", "F", "G"], ["Monday", "Tuesday", "Wednesday"]
 )
 
 # Add constraints
@@ -20,7 +19,7 @@ CONSTRAINTS = [
     ("D", "E"),
     ("E", "F"),
     ("E", "G"),
-    ("F", "G")
+    ("F", "G"),
 ]
 for x, y in CONSTRAINTS:
     problem.addConstraint(lambda x, y: x != y, (x, y))
