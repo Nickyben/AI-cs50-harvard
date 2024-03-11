@@ -18,10 +18,12 @@ with open("banknotes.csv") as f:
 
     data = []
     for row in reader:
-        data.append({
-            "evidence": [float(cell) for cell in row[:4]],
-            "label": "Authentic" if row[4] == "0" else "Counterfeit"
-        })
+        data.append(
+            {
+                "evidence": [float(cell) for cell in row[:4]],
+                "label": "Authentic" if row[4] == "0" else "Counterfeit",
+            }
+        )
 
 # Separate data into training and testing groups
 holdout = int(0.40 * len(data))
